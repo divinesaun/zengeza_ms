@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details</title>
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+</head>
+<body>
+<!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+        </div>
+        <div id="user-tools">
+                Hello,
+                <strong>{{ user.username }}</strong>.
+                <a href="/admin/">
+                    Visit Admin Panel
+                </a> /
+                <a href="/">
+                    Visit Site
+                </a>
+        </div>
+    </div>
+    <div class="container font-weight-bold">
+        <br/><br/>
+        <div>
+            <h1><strong>Name:</strong> {{ student.name }} {{ student.middle_name }} {{ student.surname }}</h1><hr/><br/>
+            <h1><strong>D.O.B: </strong>{{ student.dob }}</h1><hr/><br/>
+            <h1><strong>Class</strong>: {{ student.grade_class }}</h1><hr/><br/>
+            <h1><strong>Sex: </strong>{{ student.sex }}</h1><hr/><br/>
+            <h1><strong>Address: </strong>{{ student.house_no }}, {{ student.location }}</h1><hr/><br/>
+            <h1><strong>Phone Number: </strong>{{ student.phone1 }}</h1><hr/><br/>
+        </div>
+        <div>
+            <button class="btn btn-outline-danger" style="margin-right: 20px">
+                <a  href="/admin/students/student/{{ student.id }}/delete/" style="color: black">Delete</a>
+            </button>
+
+            <button class="btn btn-success">
+                <a  href="/admin/students/student/{{ student.id }}/change/" style="color: black">Update</a>
+            </button>
+        </div>
+
+    </div>
+</body>
+</html>

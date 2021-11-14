@@ -1,0 +1,130 @@
+{% if user.is_superuser %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zengeza 1 High Students</title>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admin/css/responsive_rtl.css' %}">
+</head>
+<body>
+ <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+        </div>
+        <div id="user-tools">
+                Hello,
+                <strong>{{ user.username }}</strong>.
+                <a href="/admin/">
+                    Visit Admin Panel
+                </a>
+        </div>
+    </div>
+    <main role="main" class="main">
+        <form method="get" action=".">
+
+            <div class="form-row">
+
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <input class="form-control py-2 border-right-0 border"
+                               placeholder="Search By Name" type="search" name="name_or_surname">
+                        <span class="input-group-append">
+                            <div class="input-group-text bg-transparent">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <select id="category" class="form-control" name="grade_class">
+                        <option>Choose...</option>
+                        {% for classes in gc %}
+                        <option value="{{ classes }}">{{ classes }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <br/>
+
+    <h2>Student List</h2>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th scope="row">Name | Middle Name</th>
+              <th scope="row">Surname</th>
+              <th scope="row">Class</th>
+              <th>Sex</th>
+              <th>D.O.B</th>
+              <th>Address</th>
+              <th>Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for student in queryset %}
+            <tr>
+                <td><a href="{% url 'details' student.pk %}">{{ student.name }} {{ student.middle_name }}</a></td>
+                <td>{{ student.surname }}</td>
+                <td>{{ student.grade_class }}</td>
+                <td>{{ student.sex }}</td>
+                <td>{{ student.dob }}</td>
+                <td>{{ student.house_no }} {{ student.location }}</td>
+                <td>{{ student.phone1 }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <main role="main" class="container">
+        <table>
+        <caption>
+          <a href="/admin/students/" class="section" title="Models in the Students application">Students</a>
+        </caption>
+
+          <tr class="model-gradeclass">
+              <th scope="row"><a href="/admin/students/gradeclass/">Grade classs</a></th>
+              <td><a href="/admin/students/gradeclass/add/" class="addlink">Add</a></td>
+              <td><a href="/admin/students/gradeclass/" class="changelink">Change</a></td>
+          </tr>
+
+          <tr class="model-location">
+
+              <th scope="row"><a href="/admin/students/location/">Locations</a></th>
+                <td><a href="/admin/students/location/add/" class="addlink">Add</a></td>
+
+
+
+
+                <td><a href="/admin/students/location/" class="changelink">Change</a></td>
+
+
+          </tr>
+
+          <tr class="model-student">
+
+              <th scope="row"><a href="/admin/students/student/">Students</a></th>
+
+
+          </tr>
+
+      </table>
+    </main>
+
+  <div class="app-students module">
+
+    </div>
+{% include 'sripts and styles.html' %}
+</body>
+</html>
+{% else %}
+<a href="/admin/">Login</a>
+{% endif %}
