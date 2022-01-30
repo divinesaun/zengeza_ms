@@ -41,8 +41,14 @@
 
                 <div class="form-group col-12">
                     <select id="category" class="form-control" name="grade_class">
-                        <option>Choose...</option>
+                        <option>Choose Class...</option>
                         {% for classes in gc %}
+                        <option value="{{ classes }}">{{ classes }}</option>
+                        {% endfor %}
+                    </select>
+                    <select id="category" class="form-control" name="sex">
+                        <option>Choose Sex...</option>
+                        {% for sex in gc %}
                         <option value="{{ classes }}">{{ classes }}</option>
                         {% endfor %}
                     </select>

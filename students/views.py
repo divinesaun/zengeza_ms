@@ -15,12 +15,16 @@ def student_list(request):
     gc = GradeClass.objects.all()
     name_contains = request.GET.get('name_or_surname')
     class_contains = request.GET.get('grade_class')
+    sex_contains = request.GET.get('sex')
     if is_valid_param(name_contains):
         qs = qs.filter(Q(name__iregex=name_contains) |
                        Q(surname__iregex=name_contains)).distinct()
 
-    if is_valid_param(class_contains) and class_contains != 'Choose...':
+    if is_valid_param(class_contains) and class_contains != 'Choose Class...':
         qs = qs.filter(grade_class__grade_class__iexact=class_contains)
+
+    if is_valid_param(sex_contains) and sex_contains != 'Choose Sex...':
+        qs = qs.filter(sex__iexact=sex_contains)
 
     con = {'queryset': qs,
            'gc': gc}

@@ -1,3 +1,4 @@
+{% load static %}
 {% if user.is_superuser %}
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
@@ -6,6 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
     <link rel="stylesheet" type="text/css" href="/static/admin/css/nav_sidebar.css">
 
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    <meta name="robots" content="NONE,NOARCHIVE">
 
     <script src="/static/admin/js/nav_sidebar.js" defer></script>
     <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
@@ -19,10 +23,6 @@
     <script src="/static/admin/js/prepopulate.js"></script>
     <script src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
 
-
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
-    <meta name="robots" content="NONE,NOARCHIVE">
 </head>
 
 
@@ -84,15 +84,22 @@
 
                                 <div class="form-group col-12">
                                     <select id="category" name="grade_class">
-                                        <option>Choose...</option>
+                                        <option>Choose Class...</option>
                                         {% for classes in gc %}
                                         <option value="{{ classes }}">{{ classes }}</option>
                                         {% endfor %}
                                     </select>
+
+                                    <select id="category" name="sex">
+                                        <option>Choose Sex...</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Male">Male</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <input type="submit" value="Search">
+                                <input type="submit" value="Search">
+                                <input type="button" id="btnExport" value="Export" class="default">
                         </form>
 
 
@@ -119,7 +126,6 @@
                                 <table id="result_list">
                                     <thead>
                                         <tr>
-
                                             <th scope="col" class="action-checkbox-column">
                                                <div class="text">
                                                    <span>
@@ -208,6 +214,29 @@
             </div>
         </div>
     </div>
+
+
+    <script type="text/javascript" src="{% static 'jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'pdfmake.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'html2canvas.min.js' %}"></script>
+
+    <script type="text/javascript">
+        $("body").on("click", "#btnExport", function () {
+            html2canvas($('#result_list')[0], {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 575,
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("student-list.pdf");
+                }
+            });
+        });
+    </script>
+
 <!-- END Container -->
 </body>
 </html>
@@ -252,6 +281,7 @@
 
             <p><a href="/admin/">Log In</a></p>
             <br class="clear">
+
         </div>
 
         <!-- END Content -->
@@ -259,8 +289,8 @@
       </div>
     </div>
     </div>
-<!-- END Container -->
-</body>
-</html>
+
+
+
 
 {% endif %}
